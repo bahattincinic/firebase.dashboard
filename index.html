@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firebase & Knockout Test</title>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+    <script src="js/firebase.js"></script>
+    <script src="js/knockout-3.1.0.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="js/underscore-1.6.0.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script src="js/highcharts/highcharts.js"></script>
+    <script src="js/highcharts/exporting.js"></script>
+    <script src="js/script.js"></script>
+    <script type="text/javascript">
+        var firebaseDashboard = new Dashboard();
+        $(function () {
+            ko.applyBindings(firebaseDashboard);
+            firebaseDashboard.register(1, 'Pending');
+            firebaseDashboard.register(2, 'Received');
+            // tab
+            $('#myTab a:first').tab('show');
+        });
+    </script>
+</head>
+<body>
+<div class="container">
+    <h1 class="page-header">Order Status Dashboard</h1>
+    <!-- ko foreach: $root.instances -->
+    <button type="button" class="btn btn-default btn-lg">
+        <span data-bind="text: title() + ' (' + rows().length + ')'"></span>
+    </button>
+    <!-- /ko -->
+
+    <ul class="nav nav-tabs" id="myTab" style="margin-top:25px">
+        <li class="active"><a href="#home" data-toggle="tab">All Orders</a></li>
+        <li><a href="#chart" data-toggle="tab">Chart</a></li>
+    </ul>
+
+    <div class="tab-content">
+        <div class="tab-pane active" id="home">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Cargo Tracker Code</th>
+                    <th>Order Created Date</th>
+                    <th>Statu</th>
+                </tr>
+                </thead>
+                <tbody>
+                <!-- ko foreach: $root.instances -->
+                <!-- ko foreach: $data.rows -->
+                <tr>
+                    <td data-bind="text: order_number"></td>
+                    <td data-bind="text: created_at"></td>
+                    <td data-bind="text: $parent.title"></td>
+                </tr>
+                <!-- /ko -->
+                <!-- /ko -->
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane" id="chart">
+            <div id="container"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
